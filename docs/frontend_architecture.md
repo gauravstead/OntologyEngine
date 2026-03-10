@@ -52,8 +52,8 @@ The underlying graph is a constantly updating, massive unified engine. However, 
     *   **UI Priority:** Dependency tree visualizations (showing upstream bottlenecks for domestic manufacturing), trade deficit highlights, and investment origin tracking.
 
 ## 3. Technical Constraints & Implementation Stack
-*   **Framework (Desktop App):** Tauri (Rust + React). We wrap the React app in a lightweight Rust binary. This bypasses browser tab memory limits, eliminates the need for middleman web servers (like FastAPI), and provides a secure, full-screen command center experience.
-*   **Backend Inter-Process Communication (IPC):** Tauri's Rust backend directly spawns local Python AI scripts (for embedding generation) via OS-level processes, maintaining a tiny memory footprint (~150MB) compared to standard web apps.
+*   **Framework (Web App):** Next.js (React). A standard web application built to consume data from a local Python FastAPI backend, optimized to ensure the browser strictly accesses paginated data rather than holding the entire graph in RAM.
+*   **Backend Inter-Process Communication (IPC):** The FastAPI backend orchestrates local Python AI scripts and lightweight `llama.cpp` analytical endpoints (e.g. Llama-3.2-3B) using stable HTTP/WebSocket connections, avoiding the brittleness of raw OS process spawning. Embeddings run on the CPU, and heavy ingestion verification is strictly offloaded to the cloud to preserve system stability.
 *   **Styling:** Tailwind CSS for a rigid, utilitarian, and high-contrast design system tailored for long sessions.
 *   **State Management:** Zustand to provide lightweight, boilerplate-free state synchronization across complex dashboard widgets without React Context re-render lag.
 *   **Visualization Modules:** 
